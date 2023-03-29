@@ -1,3 +1,4 @@
+from abc import ABC, abstractmethod
 import sys
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
@@ -8,14 +9,27 @@ from colorama import init
 from colorama import Fore, Back, Style
 init(autoreset=True)
 
-
-def exit_from_chat():
-    sys.exit('    > Good bye!')
-
+class Menu_commands(ABC):
+    # абстрактный метод, который будет необходимо переопределять для каждого подкласса
+    @abstractmethod
+    def menu_command(self):
+        raise NotImplementedError
+class Addressbook_command(Menu_commands):
+    def menu_command(self):
+        addressbook()
+class Notebook_command(Menu_commands):
+    def menu_command(self):
+        notebook()
+class Sort_command(Menu_commands):
+    def menu_command(self):
+        sort_directory()
+class Exit_command(Menu_commands):
+    def menu_command(self):
+        sys.exit('    > Good bye!')
 
 def main():
-    COMMANDS = {'use addressbook': addressbook, 'use notebook': notebook,
-                'sort directory': sort_directory, 'exit': exit_from_chat}
+    COMMANDS = {'use addressbook':Addressbook_command(), 'use notebook': Notebook_command(),
+                'sort directory': Sort_command(), 'exit': Exit_command()}
 
     command_completer = WordCompleter(COMMANDS.keys(), ignore_case=True)
     print(Fore.YELLOW + Back.BLUE + 'Glory to  Ukraine!  ')
@@ -28,8 +42,9 @@ def main():
         for i in COMMANDS.keys():
             if commands_string.lower().startswith(i):
                 command = commands_string[:len(i)].lower()
-                COMMANDS[command]()
+                COMMANDS[command].menu_command()
                 break
+
 
 if __name__ == '__main__':
     main()
