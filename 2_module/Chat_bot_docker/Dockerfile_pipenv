@@ -22,7 +22,7 @@ RUN pip install pipenv && pipenv install --dev --system --deploy
 
 CMD [ "python", "menu.py" ]
 
-# command for building:
+# command for building, then there are several dockerfiles in directory:
 # docker build -f ./Dockerfile_pipenv -t imige_pipenv .
 
 # command for running conteuner:
