@@ -78,7 +78,7 @@ def normalize_all_files_and_folders_in_archieve(rootdir):
 
 def move_and_normalize_and_unarchieve_files_into_correct_folders(rootdir, dict_extentions, lst_all_files, dict_fact_files):
     process_one_file_partial=partial(process_one_file, rootdir, dict_extentions, dict_fact_files)
-    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
         results = list(executor.map(process_one_file_partial, lst_all_files))
 
     # for file in lst_all_files:
